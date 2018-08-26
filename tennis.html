@@ -92,9 +92,9 @@
 
         if (ballX + ballSize >= aiX && ballY + ballSize / 2 >= aiY && ballY + ballSize / 2 <= aiY + paddleHeight) {
           ballSpeedX = -ballSpeedX;
-        } else if (ballX <= playerX + paddleWidth && ballY - ballSize / 2 >= playerY && ballY + ballSize / 2 <= playerY + paddleHeight) {
+        } else if (ballX <= playerX + paddleWidth + 1 && ballY - ballSize / 2 >= playerY && ballY + ballSize / 2 <= playerY + paddleHeight) {
           ballSpeedX = -ballSpeedX;
-        } else if (ballX + ballSize >= cw || ballX <= 0) {
+        } else if (ballX >= aiX + paddleWidth || ballX + ballSize <= playerX) {
           stopGame();
         }
 
