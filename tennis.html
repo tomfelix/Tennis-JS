@@ -31,9 +31,9 @@
 
       const cw = canvas.width;
       const ch = canvas.height;
-
+      let count = 0;
       const ballSize = 20;
-
+      let starter;
       let ballX = cw/2 - ballSize/2;
       let ballY = ch/2 - ballSize/2;
 
@@ -46,8 +46,8 @@
       const aiX = 910;
       let aiY = 200;
 
-      let ballSpeedX = 4;
-      let ballSpeedY = 4;
+      let ballSpeedX = 2;
+      let ballSpeedY = 2;
 
       const player = () => {
         ctx.fillStyle = 'green';
@@ -61,17 +61,18 @@
       }
 
       const retry = () => {
+        count = 0;
         ballX = cw/2 - ballSize/2;
         ballY = ch/2 - ballSize/2;
-        playerY = 200;
-        aiY = 200;
-        ballSpeedX = 4;
-        ballSpeedY = 4;
-
-        game();
+        ballSpeedX = 2;
+        ballSpeedY = 2;
+        canvas.removeEventListener("click", retry);
+        startGame();
       }
 
       const stopGame = () => {
+        clearInterval(starter);
+        aiY = 200;
         ballSpeedX = 0;
         ballSpeedY = 0;
         canvas.removeEventListener("mousemove", playerPosition);
@@ -79,8 +80,7 @@
         ctx.fillStyle = "red";
         ctx.textAlign = "center";
         ctx.fillText("Click to try again", cw/2, ch/2);
-        canvas.addEventListener('click', retry);
-        //retry();
+        canvas.addEventListener("click", retry);
       }
 
       const ball = () => {
@@ -96,7 +96,6 @@
           ballSpeedX = -ballSpeedX;
         } else if (ballX + ballSize >= cw || ballX <= 0) {
           stopGame();
-          //ballSpeedX = -ballSpeedX;
         }
 
         if (ballY + ballSize >= ch || ballY <= 0) {
@@ -129,8 +128,6 @@
         if (playerY >= ch - paddleHeight) {
           playerY = ch - paddleHeight;
         }
-
-        //aiY = playerY;
       }
 
       const aiPosition = () => {
@@ -152,7 +149,6 @@
           } else if (paddleMiddle - ballMiddle < -100) {
             aiY+= 5;
           }
-          return;
         }
       }
 
@@ -170,18 +166,29 @@
         }
       }
 
+      const counter = () => {
+        ctx.font = "30px Comic Sans MS";
+        ctx.fillStyle = 'white';
+        ctx.fillText(count, cw - 60, ch - 5);
+      }
 
       const game = () => {
         canvas.addEventListener('mousemove', playerPosition);
-
         table();
         ball();
         player();
         AI();
         aiPosition();
+        count++;
+        counter();
       }
 
-      setInterval(game, 1000/60);
+      const startGame = () => {
+        starter = setInterval(game, 1000/60);
+      }
+      window.onload = () => {
+        startGame();
+      };
     </script>
   </body>
 </html>
