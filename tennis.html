@@ -74,7 +74,7 @@
         }
           ballY += ballSpeedY;
       }
-      
+
       const table = () => {
         ctx.fillStyle = 'black';
         ctx.fillRect(0, 0, cw, ch);
@@ -100,11 +100,30 @@
           playerY = ch - paddleHeight;
         }
 
-        aiY = playerY;
+        //aiY = playerY;
       }
 
       const aiPosition = () => {
-
+        const ballMiddle = ballY + ballSize / 2;
+        const paddleMiddle = aiY + paddleHeight / 2;
+        if (ballX > 500) {
+          if (paddleMiddle - ballMiddle > 200) {
+            aiY-= 15;
+          } else if (paddleMiddle - ballMiddle > 50) {
+            aiY-= 5;
+          } else if (paddleMiddle - ballMiddle < -200) {
+            aiY+= 15;
+          } else if (paddleMiddle - ballMiddle < -50) {
+            aiY+= 5;
+          }
+        } else if (ballX <= 500 && ballX > 150) {
+          if (paddleMiddle - ballMiddle > 100) {
+            aiY-= 5;
+          } else if (paddleMiddle - ballMiddle < -100) {
+            aiY+= 5;
+          }
+          return;
+        }
       }
 
       const speedUp = () => {
@@ -129,7 +148,7 @@
         ball();
         player();
         AI();
-        aiPosiition();
+        aiPosition();
       }
 
       setInterval(game, 1000/60);
