@@ -33,6 +33,7 @@
       const ch = canvas.height;
 
       const ballSize = 20;
+
       let ballX = cw/2 - ballSize/2;
       let ballY = ch/2 - ballSize/2;
 
@@ -62,8 +63,14 @@
         ctx.fillStyle = 'red';
         ctx.fillRect(ballX, ballY, ballSize, ballSize);
 
-        ballX += ballSpeedX;
-        ballY += ballSpeedY;
+        if (ballX + ballSize >= cw || ballX <= 0) {
+          ballSpeedX = -ballSpeedX;
+        }
+          ballX += ballSpeedX;
+        if (ballY + ballSize >= ch || ballY <= 0) {
+          ballSpeedY = -ballSpeedY;
+        }
+          ballY += ballSpeedY;
       }
       const table = () => {
         ctx.fillStyle = 'black';
@@ -85,7 +92,7 @@
         AI();
       }
 
-      //setInterval(game, 1000/60);
+      setInterval(game, 1000/60);
     </script>
   </body>
 </html>
