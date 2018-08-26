@@ -41,13 +41,13 @@
       const paddleWidth = 10;
 
       const playerX = 70;
-      const aiX = 910;
-
       let playerY = 200;
+
+      const aiX = 910;
       let aiY = 200;
 
-      let ballSpeedX = 1;
-      let ballSpeedY = 1;
+      let ballSpeedX = 4;
+      let ballSpeedY = 4;
 
       const player = () => {
         ctx.fillStyle = 'green';
@@ -65,13 +65,16 @@
 
         if (ballX + ballSize >= cw || ballX <= 0) {
           ballSpeedX = -ballSpeedX;
+          speedUp();
         }
           ballX += ballSpeedX;
         if (ballY + ballSize >= ch || ballY <= 0) {
           ballSpeedY = -ballSpeedY;
+          speedUp();
         }
           ballY += ballSpeedY;
       }
+      
       const table = () => {
         ctx.fillStyle = 'black';
         ctx.fillRect(0, 0, cw, ch);
@@ -85,11 +88,48 @@
         }
       }
 
+      const topCanvas = canvas.offsetTop;
+
+      const playerPosition = (e) => {
+        playerY = e.offsetY - paddleHeight / 2;
+
+        if (playerY <= 0) {
+          playerY = 0;
+        }
+        if (playerY >= ch - paddleHeight) {
+          playerY = ch - paddleHeight;
+        }
+
+        aiY = playerY;
+      }
+
+      const aiPosition = () => {
+
+      }
+
+      const speedUp = () => {
+        console.log(ballSpeedX, ballSpeedY);
+        if (ballSpeedX > 0 && ballSpeedX < 16) {
+          ballSpeedX+= .5;
+        } else if (ballSpeedX < 0 && ballSpeedX > -16) {
+          ballSpeedX-= .5;
+        }
+
+        if (ballSpeedY > 0 && ballSpeedY < 16) {
+          ballSpeedY+= .5;
+        } else if (ballSpeedY < 0 && ballSpeedY > -16) {
+          ballSpeedY-= .5;
+        }
+      }
+
+      canvas.addEventListener('mousemove', playerPosition);
+
       const game = () => {
         table();
         ball();
         player();
         AI();
+        aiPosiition();
       }
 
       setInterval(game, 1000/60);
