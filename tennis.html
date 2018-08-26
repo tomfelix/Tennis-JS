@@ -32,7 +32,49 @@
       const cw = canvas.width;
       const ch = canvas.height;
 
-      
+      const ballSize = 20;
+      let ballX = cw/2 - ballSize/2;
+      let ballY = ch/2 - ballSize/2;
+
+      const paddleHeight = 100;
+      const paddleWidth = 10;
+
+      const playerX = 70;
+      const aiX = 910;
+
+      let playerY = 200;
+      let aiY = 200;
+
+      const player = () => {
+        ctx.fillStyle = 'green';
+        ctx.fillRect(playerX, playerY, paddleWidth, paddleHeight);
+      }
+
+      const AI = () => {
+        ctx.fillStyle = 'yellow';
+        ctx.fillRect(aiX, aiY, paddleWidth, paddleHeight);
+      }
+
+      const ball = () => {
+        ctx.fillStyle = 'red';
+        ctx.fillRect(ballX, ballY, ballSize, ballSize);
+      }
+      const table = () => {
+        ctx.fillStyle = 'black';
+        ctx.fillRect(0, 0, cw, ch);
+
+        for (let centerLine = 20; centerLine < ch; centerLine += 30) {
+          ctx.fillStyle = 'white';
+          ctx.fillRect(cw/2 - 5, centerLine, 10, 10);
+        }
+        ball();
+
+      }
+      table();
+      player();
+      AI();
+
+
     </script>
   </body>
 </html>
