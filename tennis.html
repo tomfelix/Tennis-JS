@@ -52,6 +52,7 @@
       const player = () => {
         ctx.fillStyle = 'green';
         ctx.fillRect(playerX, playerY, paddleWidth, paddleHeight);
+
       }
 
       const AI = () => {
@@ -59,20 +60,30 @@
         ctx.fillRect(aiX, aiY, paddleWidth, paddleHeight);
       }
 
+
       const ball = () => {
         ctx.fillStyle = 'red';
         ctx.fillRect(ballX, ballY, ballSize, ballSize);
 
-        if (ballX + ballSize >= cw || ballX <= 0) {
+        ballX += ballSpeedX;
+        ballY += ballSpeedY;
+
+        if (ballX + ballSize >= aiX && ballY + ballSize / 2 >= aiY && ballY + ballSize / 2 <= aiY + paddleHeight) {
           ballSpeedX = -ballSpeedX;
-          speedUp();
+        } else if (ballX <= playerX + paddleWidth && ballY - ballSize / 2 >= playerY && ballY + ballSize / 2 <= playerY + paddleHeight) {
+          ballSpeedX = -ballSpeedX;
+        } else if (ballX + ballSize >= cw || ballX <= 0) {
+          ballSpeedX = 0;
+          ballSpeedY = 0;
+
+          //ballSpeedX = -ballSpeedX;
         }
-          ballX += ballSpeedX;
+
         if (ballY + ballSize >= ch || ballY <= 0) {
           ballSpeedY = -ballSpeedY;
           speedUp();
         }
-          ballY += ballSpeedY;
+
       }
 
       const table = () => {
@@ -92,7 +103,6 @@
 
       const playerPosition = (e) => {
         playerY = e.offsetY - paddleHeight / 2;
-
         if (playerY <= 0) {
           playerY = 0;
         }
@@ -127,7 +137,6 @@
       }
 
       const speedUp = () => {
-        console.log(ballSpeedX, ballSpeedY);
         if (ballSpeedX > 0 && ballSpeedX < 16) {
           ballSpeedX+= .5;
         } else if (ballSpeedX < 0 && ballSpeedX > -16) {
